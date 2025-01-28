@@ -11,6 +11,9 @@ DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -
 
 apt install virtualbox-guest-additions-iso -y
 
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | debconf-set-selections
+DEBIAN_FRONTEND=noninteractive apt-get install -y virtualbox-ext-pack
+
 apt install -y curl wget jq net-tools
 apt install -y git-all maven
 apt install -y openjdk-17-jdk-headless

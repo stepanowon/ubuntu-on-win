@@ -24,8 +24,6 @@ vagrant up
 vagrant reload
 
 # 사용자 계정/패스워드 --> user1/asdf
-# 각 가상머신에 접속하여 다음 명령어를 실행한다.
-sudo apt install virtualbox-ext-pack -y
 ```
 ---
 ## Jenkins 설치
