@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "gutehall/ubuntu24-04"
+  config.vm.box = "bento/ubuntu-24.04"
 
   # CPU, Memory 설정
   config.vm.provider "virtualbox" do |vb|
