@@ -13,7 +13,7 @@ apt install virtualbox-guest-additions-iso -y
 
 apt install -y curl wget jq net-tools
 apt install -y git-all maven
-apt install -y openjdk-17-jdk-headless
+apt install -y openjdk-21-jdk-headless
 
 timedatectl set-timezone 'Asia/Seoul'
 timedatectl set-ntp true
