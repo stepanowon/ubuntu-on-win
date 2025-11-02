@@ -31,7 +31,7 @@ sudo apt-get install -y virtualbox-ext-pack
 ```ssh
 # server1, 2, 3 모두에서 실행
 sudo apt update
-sudo apt install openjdk-17-jdk-headless
+sudo apt install openjdk-21-jdk-headless
 ```
 
 #### Jenkins 설치
