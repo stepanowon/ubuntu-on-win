@@ -1,33 +1,38 @@
 # Ubuntu-24.04 리눅스 3개 노드 설정
 
 ## 설정 내용
-* user1/asdf 로 사용자 생성
-* user1을 sudoer로 등록
-* git, docker 설치
-* hostname : server1 ~ server3
-* ip 주소 : 192.168.56.101~103
-* 모든 vm에 hosts 파일 등록 : server1~3
+
+- user1/asdf 로 사용자 생성
+- user1을 sudoer로 등록
+- git, docker 설치
+- hostname : server1 ~ server3
+- ip 주소 : 192.168.56.101~103
+- 모든 vm에 hosts 파일 등록 : server1~3
 
 ## 설치방법
-* Oracle VirtualBox 설치 - https://www.virtualbox.org
-* Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
+
+- Oracle VirtualBox 설치 - https://www.virtualbox.org
+- Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
 
 ```ssh
 git clone https://github.com/stepanowon/ubuntu-on-win
 cd ubuntu-on-win
 vagrant up
 
-# 모두 설치 후 
+# 모두 설치 후
 vagrant reload
 
 # 사용자 계정/패스워드 --> user1/asdf
 # 각 가상머신마다 접속하여 virtualbox 확장 설치
 sudo apt-get install -y virtualbox-ext-pack
 ```
+
 ---
+
 ## Jenkins 설치
 
 #### JDK 설치
+
 ```ssh
 # server1, 2, 3 모두에서 실행
 sudo apt update
@@ -35,18 +40,20 @@ sudo apt install openjdk-21-jdk-headless
 ```
 
 #### Jenkins 설치
+
 ```ssh
 # server1에서만 실행
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 7198F4B714ABFC68
+sudo gpg --export 7198F4B714ABFC68 | sudo tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 sudo apt update -y
 sudo apt install jenkins -y
 ```
 
 #### docker 설치(혹시 설치하지 않았다면)
+
 ```ssh
 sudo apt-get update
 sudo apt-get install ca-certificates curl -y
@@ -63,29 +70,34 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-sudo usermod -a -G docker jenkins  
+sudo usermod -a -G docker jenkins
 
 sudo systemctl enable docker
 sudo systemctl start docker
-sudo chmod 666 /var/run/docker.sock   
+sudo chmod 666 /var/run/docker.sock
 ```
 
 #### jenkins 초기 패스워드 획득
+
 ```ssh
 # server1에서 실행
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
 #### Jenkins 서버 접속
-* 브라우저를 열고 http://192.168.56.101:8080 으로 접속함
 
+- 브라우저를 열고 http://192.168.56.101:8080 으로 접속함
 
 ---
+
 ## Jenkins 분산 에이전트 추가
+
 #### 사전 조건
-* Agent Node로 등록할 호스트, 인스턴스에는 JDK가 미리 설치되어 있어야 함
+
+- Agent Node로 등록할 호스트, 인스턴스에는 JDK가 미리 설치되어 있어야 함
 
 #### SSH 키 생성(server1 에서)
+
 ```ssh
 # ssh-keygen -t rsa 명령어로 키페어 생성
 # 생성된 키페어 중 Public Key를 server, server3으로 복사
@@ -95,6 +107,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
 #### 노드 추가 시작(Jenkins UI 화면에서)
+
 ```ssh
 # Jenkins 관리 - Nodes 로 이동하여 New Node 버튼 클릭
 # 노드명은 적절히 예) 서버명 입력하고 Type을 Permanent Agent 지정 ---> Create
@@ -115,6 +128,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
 #### 노드간 시간이 일치하지 않을 때
+
 ```sh
 # 모든 노드에서 다음 명령어 실행
 sudo timedatectl set-ntp yes
