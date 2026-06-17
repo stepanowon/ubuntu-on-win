@@ -203,7 +203,11 @@ sudo adduser --system --shell /bin/bash --gecos 'Git Version Control' --group --
 # 바이너리 파일 다운로드, 복사
 VERSION=1.22.6
 sudo wget -O /tmp/gitea https://dl.gitea.io/gitea/${VERSION}/gitea-${VERSION}-linux-amd64
-# 맥OS 용 다운로드
+sudo mv /tmp/gitea /usr/local/bin
+sudo chmod +x /usr/local/bin/gitea
+
+# 맥OS 용 다운로드, 복사
+VERSION=1.22.6
 sudo wget -O /tmp/gitea https://dl.gitea.io/gitea/${VERSION}/gitea-${VERSION}-linux-arm64
 sudo mv /tmp/gitea /usr/local/bin
 sudo chmod +x /usr/local/bin/gitea
