@@ -7,17 +7,17 @@ PASSWORD="asdf"
 SSHDIR="/home/$USERNAME/.ssh"
 
 
-useradd -m -s /bin/bash -p $PASSWORD $USERNAME
+useradd -m -s /bin/bash $USERNAME
 usermod -a -G sudo $USERNAME
 
 # user1 사용자 추가 & 패스워드 설정
-echo "$USERNAME:$PASSWORD" | chpasswd $USERNAME
+echo "$USERNAME:$PASSWORD" | chpasswd
 # SSH 키 생성
 if [ ! -f $SSHDIR/id_rsa ]; then
   sudo -u $USERNAME ssh-keygen -t rsa -b 2048 -f $SSHDIR/id_rsa -q -N ""
   echo "SSH key generated for $USERNAME at $SSHDIR/id_rsa"
 else
-  echo "SSH key already exists for #{target_user}"
+  echo "SSH key already exists for $USERNAME"
 fi
 
 # 적절한 권한 설정
