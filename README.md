@@ -1,6 +1,7 @@
 # Ubuntu-24.04 리눅스 3개 노드 설정
+
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
-  
+
 ## 설정 내용
 
 - user1/asdf 로 사용자 생성
@@ -42,10 +43,11 @@ sudo apt install openjdk-21-jdk-headless
 
 ```ssh
 # server1에서만 실행
-sudo gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 7198F4B714ABFC68
-sudo gpg --export 7198F4B714ABFC68 | sudo tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+sudo mkdir -p /etc/apt/keyrings
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
 
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 sudo apt update -y
 sudo apt install jenkins -y
