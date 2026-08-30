@@ -1,8 +1,15 @@
-# Ubuntu-24.04 리눅스 3개 노드 설정
+# 우분투 3개노드 VM 설정, Jenkins 설정, Gitea 설정
 
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
 
-## 설정 내용
+## 목차
+
+- [우분투 24 가상머신 설정](#우분투-24-가상머신-설정)
+- [Jenkins 설치](#jenkins-설치)
+- [Jenkins 분산 에이전트 추가](#jenkins-분산-에이전트-추가)
+- [Gitea 설치 및 설정](#gitea-설치-및-설정)
+
+## 우분투 24 가상머신 설정
 
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
@@ -11,7 +18,7 @@
 - ip 주소 : 192.168.56.101~103
 - 모든 vm에 hosts 파일 등록 : server1~3
 
-## 설치방법
+### 설치방법
 
 - Oracle VirtualBox 설치 - https://www.virtualbox.org
 - Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
@@ -53,7 +60,7 @@ sudo apt update -y
 sudo apt install jenkins -y
 ```
 
-### docker 설치(혹시 설치하지 않았다면)
+### docker 설치
 
 ```ssh
 sudo apt-get update
@@ -135,9 +142,9 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 sudo timedatectl set-ntp yes
 ```
 
-## Gitea 설치
+## Gitea 설치 및 설정
 
-### gitea를 위한 PostgreSQL 서버 준비
+### Gitea를 위한 PostgreSQL 서버 준비
 
 ```sh
 # server3 가상머신에 접속
@@ -192,7 +199,7 @@ $ psql "postgres://gitea@192.168.56.103/giteadb"
 
 ```
 
-### gitea 설치
+### Gitea 서버 설치
 
 ```sh
 # server2 가상머신 접속
@@ -237,7 +244,7 @@ sudo ufw allow 3000/tcp
 
 ```
 
-### gitea 설정
+### Gitea 설정 및 테스트
 
 - 브라우저 접속
   - http://192.168.56.102:3000 으로 접속하여 브라우저 기반의 설정 시작
